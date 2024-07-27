@@ -12,15 +12,16 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
+    - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '3.1.0'  # Specify the stable Flutter version here
         channel: 'stable'
 
-    - name: Install dependencies
+    - name: clean project dependencies
+      run: flutter clean    
+    - name: Install project dependencies
       run: flutter pub get
+    - name: Enable web build
+      run: flutter config –enable-web
 
     - name: Build web application
       run: flutter build web
