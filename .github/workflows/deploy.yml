@@ -12,12 +12,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v1
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1
       with:
         channel: 'stable'
 
-    - name: clean project dependencies
-      run: flutter clean    
+    - name: Clean project dependencies
+      run: flutter clean
+
     - name: Install project dependencies
       run: flutter pub get
 
