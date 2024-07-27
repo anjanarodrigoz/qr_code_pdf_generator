@@ -11,14 +11,18 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: 'stable'  # Use the stable channel which should include Dart >= 3.1.0
+    - name: Install Flutter
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl unzip xz-utils git
+        curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.3.2-stable.tar.xz
+        tar xf flutter_linux_3.3.2-stable.tar.xz
+        export PATH="$PATH:`pwd`/flutter/bin"
+        flutter doctor
 
-    - name: Check Flutter version
+    - name: Check Flutter and Dart version
       run: flutter --version
 
     - name: Check Dart version
@@ -31,7 +35,7 @@ jobs:
       run: flutter build web
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: build/web
